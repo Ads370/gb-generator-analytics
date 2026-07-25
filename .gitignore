@@ -216,3 +216,11 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Project-specific
+warehouse.duckdb
+*.hyper
+dbt/target/
+dbt/dbt_packages/
+*.json.key
+.env
