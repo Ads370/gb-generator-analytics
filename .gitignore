@@ -224,3 +224,4 @@ dbt/target/
 dbt/dbt_packages/
 *.json.key
 .env
+data/bronze/b1610/
