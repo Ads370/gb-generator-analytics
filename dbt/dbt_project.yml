@@ -1,0 +1,14 @@
+name: 'gb_generator_analytics'
+version: '1.0.0'
+profile: 'gb_generator'
+model-paths: ["models"]
+seed-paths: ["seeds"]
+
+models:
+  gb_generator_analytics:
+    staging:
+      +materialized: view
+    intermediate:
+      +materialized: view
+    marts:
+      +materialized: view
