@@ -41,6 +41,7 @@ operator_level as (
 select *,
     case
         when running_capacity_mw > 0
+            and (total_output_mw / running_capacity_mw) <= 1.5
         then total_output_mw / running_capacity_mw
     end as load_factor
 from operator_level
