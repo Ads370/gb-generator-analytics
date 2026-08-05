@@ -55,4 +55,29 @@ models:
         tests:
           - not_null
 
+  - name: mart_national_period
+    description: National generation totals and market concentration (HHI) per settlement period
+    tests: 
+       - dbt_utils.unique_combination_of_columns:
+            arguments:
+              combination_of_columns:
+                - settlement_date
+                - settlement_period
+    columns:
+      - name: settlement_date
+        tests:
+          - not_null
+      - name: settlement_period
+        tests:
+          - not_null
+      - name: national_output_mwh
+        tests:
+          - not_null
+      - name: hhi
+        description: Herfindahl index, 0..1 fractional form. Low values = unconcentrated market.
+        tests:
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                max_value: 1
 
