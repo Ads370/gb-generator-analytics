@@ -225,3 +225,4 @@ dbt/dbt_packages/
 *.json.key
 .env
 data/bronze/b1610/
+data/bronze/mid/

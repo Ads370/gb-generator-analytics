@@ -81,3 +81,22 @@ models:
                 min_value: 0
                 max_value: 1
 
+  - name: mart_operator_revenue
+    description: Estimated wholesale market value of operator output per settlement period (spot-valued proxy, not realised earnings).
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - settlement_date
+              - settlement_period
+              - lead_party_name
+    columns:
+      - name: lead_party_name
+        tests:
+          - not_null
+      - name: price_gbp_per_mwh
+        tests:
+          - not_null
+      - name: estimated_revenue_gbp
+        tests:
+          - not_null
