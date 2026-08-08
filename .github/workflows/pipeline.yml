@@ -20,7 +20,8 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Install dbt packages
-        run: dbt deps --project-dir dbt --profiles-dir dbt
+        working-directory: dbt
+        run: dbt deps --profiles-dir .
 
       - name: Ingest reference data
         run: python -m ingestion.ingest_reference
@@ -32,8 +33,9 @@ jobs:
         run: python -m ingestion.ingest_prices --lookback-days 5
 
       - name: Build dbt models
-        run: dbt build --project-dir dbt --profiles-dir dbt
-
+        working-directory: dbt
+        run: dbt build --profiles-dir .
+        
       - name: Export marts to CSV
         run: python -m publishing.export_for_tableau
 
