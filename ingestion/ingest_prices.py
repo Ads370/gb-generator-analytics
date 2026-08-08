@@ -48,7 +48,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description = "Ingest MID price data")
     parser.add_argument("--from", dest="from_date", help="Start date YYYY-MM-DD")
     parser.add_argument("--to", dest="to_date", help="End date YYYY-MM-DD")
-    parser.add_argument("--lookback_days", type=int, help="Re-pull the last N days")
+    parser.add_argument("--lookback-days", type=int, help="Re-pull the last N days")
     args=parser.parse_args()
 
     if args.lookback_days is not None:
