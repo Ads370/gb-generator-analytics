@@ -1,0 +1,44 @@
+name: pipeline
+
+"on":
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * *'
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install dbt packages
+        run: dbt deps --project-dir dbt --profiles-dir dbt
+
+      - name: Ingest reference data
+        run: python -m ingestion.ingest_reference
+
+      - name: Ingest recent facts
+        run: python -m ingestion.ingest_facts --lookback-days 5
+
+      - name: Ingest recent prices
+        run: python -m ingestion.ingest_prices --lookback-days 5
+
+      - name: Build dbt models
+        run: dbt build --project-dir dbt --profiles-dir dbt
+
+      - name: Export marts to CSV
+        run: python -m publishing.export_for_tableau
+
+      - name: Upload exports as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tableau-exports
+          path: data/exports/*.csv
