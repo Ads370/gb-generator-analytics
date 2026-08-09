@@ -27,15 +27,15 @@ jobs:
         run: python -m ingestion.ingest_reference
 
       - name: Ingest recent facts
-        run: python -m ingestion.ingest_facts --lookback-days 5
+        run: python -m ingestion.ingest_facts --lookback-days 10
 
       - name: Ingest recent prices
-        run: python -m ingestion.ingest_prices --lookback-days 5
+        run: python -m ingestion.ingest_prices --lookback-days 10
 
       - name: Build dbt models
         working-directory: dbt
         run: dbt build --profiles-dir .
-        
+
       - name: Export marts to CSV
         run: python -m publishing.export_for_tableau
 
