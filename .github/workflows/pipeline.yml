@@ -47,3 +47,9 @@ jobs:
         with:
           name: tableau-exports
           path: data/exports/*.csv
+
+      - name: Push to Google Sheets
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+          SHEET_ID: ${{ secrets.SHEET_ID}}
+        run: python -m publishing.export_to_sheets
