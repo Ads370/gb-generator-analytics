@@ -37,7 +37,10 @@ jobs:
         run: dbt build --profiles-dir .
 
       - name: Export marts to CSV
-        run: python -m publishing.export_for_tableau
+        run: PYTHONPATH=. python -m publishing.export_for_tableau
+         # pwd
+         # ls -la
+         # python -m publishing.export_for_tableau
 
       - name: Upload exports as artifact
         uses: actions/upload-artifact@v4
