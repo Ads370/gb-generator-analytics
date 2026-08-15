@@ -2,7 +2,7 @@
  
 An end-to-end data pipeline that benchmarks Great Britain's electricity generators against each other on output, asset utilisation, fuel mix, and the market value of what they produce. Data is pulled from Elexon's public settlement feeds every day, transformed and tested with dbt, and published to a live dashboard.
  
-**Stack:** Python · DuckDB · dbt · GitHub Actions · Google Sheets · Tableau Public
+**Stack:** Python · DuckDB · dbt · GitHub Actions · Google Sheets · Tableau Public; 
 **Cost to run:** £0
  
 ---
@@ -15,7 +15,7 @@ The catch is that none of it is analysis-ready.
  
 - Output is reported per **generating unit** (`T_TORN-1`), not per company. Answering "how did EDF perform against RWE" means joining against a separate register to find out who owns what.
 - The core generation dataset requires one API call per half-hour period, so a single day is 48 requests.
-- Values are **restated** as the settlement process runs, so the number you pulled yesterday may not be the number today.
+- Values are **restated** as the settlement process runs, so the number pulled yesterday may not be the number today.
 - Data is published with a lag of several days, so "yesterday" is usually empty.
 - Roughly a fifth of volume is registered to trading and aggregation companies that have no fuel type at all, because they do not own physical plant.
 So the question this project answers is:
