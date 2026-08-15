@@ -53,7 +53,7 @@ Two companies can produce identical volumes and earn very different amounts. Thi
  
 Market concentration is measured with a Herfindahl index, which squares each company's share of total output and sums the results. If one firm produced everything the score would be 1.0. If output is spread thinly across many firms it approaches zero.
  
-GB generation scores around 0.04 to 0.05, which is a genuinely competitive market. That may be counterintuitive if you expect a handful of giants to run the grid.
+GB generation scores around 0.04 to 0.05, which is a genuinely competitive market. That may be counterintuitive if we expect a handful of giants to run the grid.
  
 More interesting is that the score moves predictably with time of day. It rises overnight, when only a lean baseload fleet is running and output sits in a few hands, and falls during the day as a much wider range of plant is dispatched. The market's structure is not fixed. It changes hour by hour with demand.
  
