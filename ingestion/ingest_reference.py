@@ -5,7 +5,7 @@ It is overwritten in full each run, since its current standing data rather than 
 
 import logging
 from pathlib import Path
-import pandas as pd
+import pandas as pd # type: ignore
 from ingestion.client import ElexonClient
 
 

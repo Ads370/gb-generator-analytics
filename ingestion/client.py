@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import logging
 import time
-import requests
+import requests #type: ignore
 
 logger = logging.getLogger(__name__)
 

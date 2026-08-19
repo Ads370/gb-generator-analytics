@@ -226,3 +226,5 @@ dbt/dbt_packages/
 .env
 data/bronze/b1610/
 data/bronze/mid/
+data/exports/
+.DS_Store
