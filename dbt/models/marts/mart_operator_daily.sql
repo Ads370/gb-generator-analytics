@@ -12,20 +12,40 @@ with period_level as (
         running_capacity_mw,
         load_factor
     from {{ ref('mart_operator_period') }}
+),
+
+daily as (
+    select
+        settlement_date,
+        lead_party_name,
+        lead_party_id,
+        sum(total_output_mwh)    as daily_output_mwh,
+        max(active_units)        as peak_active_units,
+        max(running_capacity_mw) as peak_capacity_mw,
+        avg(load_factor)         as avg_load_factor,
+        max(load_factor)         as peak_load_factor,
+        count(*)                 as active_periods
+    from period_level
+    group by settlement_date, lead_party_name, lead_party_id
+),
+
+revenue_daily as (
+    select
+        settlement_date,
+        lead_party_name,
+        sum(estimated_revenue_gbp) as daily_revenue_gbp
+    from {{ ref('mart_operator_revenue') }}
+    group by settlement_date, lead_party_name
 )
 
-select 
-    settlement_date,
-    lead_party_name,
-    lead_party_id, 
-    sum(total_output_mwh) as daily_output_mwh, --energy sums across the selected day
-    max(active_units) as peak_active_units, 
-    max(running_capacity_mw) as peak_capacity_mw, --Fleet peak units running at any point and peak capacity available
-    avg(load_factor) as avg_load_factor,
-    max(load_factor) as peak_load_factor, --those two metrics indicate the utilization across the day (nulls fro unreliable-capcity rows are ignored)
-    count(*) as active_periods --number of periods the operator generated in (out of 48)
-from period_level
-group by
-    settlement_date,
-    lead_party_name,
-    lead_party_id
+select
+    d.*,
+    r.daily_revenue_gbp,
+    case
+        when d.daily_output_mwh > 0
+        then r.daily_revenue_gbp / d.daily_output_mwh
+    end as avg_price_achieved
+from daily d
+left join revenue_daily r
+    on  d.settlement_date  = r.settlement_date
+    and d.lead_party_name  = r.lead_party_name
