@@ -33,7 +33,7 @@ TARGETS = {
     ),
 }
 
-TEXT_COLUMNS = {"settlement_date", "lead_party_name", "lead_party_id", "fuel_type"}
+TEXT_COLUMNS = {"settlement_date", "lead_party_name", "lead_party_id", "fuel_type", "is_physical_generator"}
 
 def read_existing(spreadsheet, tab_name: str) -> pd.DataFrame:
     try:

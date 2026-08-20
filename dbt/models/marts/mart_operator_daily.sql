@@ -36,6 +36,18 @@ revenue_daily as (
         sum(estimated_revenue_gbp) as daily_revenue_gbp
     from {{ ref('mart_operator_revenue') }}
     group by settlement_date, lead_party_name
+),
+
+generator_flag as (
+    select
+        lead_party_name,
+        max(case
+            when fuel_type not in ('TRADING/AGGREGATOR', 'UNCLASSIFIED', 'INTERCONNECTOR')
+                 and fuel_type not like 'INT%'
+            then 1 else 0
+        end) as is_physical_generator
+    from {{ ref('mart_fuel_mix') }}
+    group by lead_party_name
 )
 
 select
@@ -44,8 +56,11 @@ select
     case
         when d.daily_output_mwh > 0
         then r.daily_revenue_gbp / d.daily_output_mwh
-    end as avg_price_achieved
+    end as avg_price_achieved,
+    coalesce(g.is_physical_generator, 0) as is_physical_generator
 from daily d
 left join revenue_daily r
     on  d.settlement_date  = r.settlement_date
     and d.lead_party_name  = r.lead_party_name
+left join generator_flag g
+    on  d.lead_party_name  = g.lead_party_name
